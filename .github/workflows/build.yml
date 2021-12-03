@@ -1,5 +1,8 @@
 name:  build mlir
 
+env:
+  LLVM_VERSION: 13.0.0
+
 on: [push]
 jobs:
   build:
@@ -11,10 +14,10 @@ jobs:
         uses: robinraju/release-downloader@v1.2
         with:
           repository: llvm/llvm-project
-          tag: llvmorg-13.0.0
-          fileName: clang-13.0.0.src.tar.xz
-          tarBall: true
-          out-file-path: llvm
+          tag: llvmorg-${{ env.LLVM_VERSION }}
+          fileName: llvm-project-${{ env.LLVM_VERSION }}.src.tar.xz
+      - name: extract
+        run: tar xvf llvm-project-$LLVM_VERSION.src.tar.xz --strip-components 1 -C llvm
       - name: configure
         working-directory: llvm
         run: cmake -S llvm -B build -G Ninja -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install -DLLVM_ENABLE_PROJECTS='mlir;clang' -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_USE_LINKER=lld -DCMAKE_BUILD_TYPE=Release -DLLVM_INSTALL_UTILS=ON
