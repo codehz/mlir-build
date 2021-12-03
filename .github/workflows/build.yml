@@ -22,7 +22,7 @@ jobs:
         uses: seanmiddleditch/gha-setup-ninja@master
       - name: configure
         working-directory: llvm
-        run: cmake -S llvm -B build -G Ninja -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install -DLLVM_ENABLE_PROJECTS='mlir;clang' -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_USE_LINKER=lld -DCMAKE_BUILD_TYPE=Release -DLLVM_INSTALL_UTILS=ON
+        run: cmake -S llvm -B build -G Ninja -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install -DLLVM_ENABLE_PROJECTS='mlir;clang' -DLLVM_TARGETS_TO_BUILD=X86 -DCMAKE_BUILD_TYPE=Release -DLLVM_INSTALL_UTILS=ON
       - name: build
         working-directory: llvm
         run: cmake --build build --target check-mlir
