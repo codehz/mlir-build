@@ -33,7 +33,7 @@ jobs:
       - name: configure (windows)
         working-directory: llvm-project-${{ env.LLVM_VERSION }}.src
         if: matrix.os == 'windows-latest'
-        run: cmake -S llvm -B build -G "Visual Studio 17 2022" -Thost=x64 -DCMAKE_INSTALL_PREFIX=${{ env.GITHUB_WORKSPACE }}/install -DLLVM_ENABLE_PROJECTS="mlir;clang" -DLLVM_TARGETS_TO_BUILD=X86 -DCMAKE_BUILD_TYPE=Release -DLLVM_INSTALL_UTILS=ON
+        run: cmake -S llvm -B build -Thost=x64 -DCMAKE_INSTALL_PREFIX=${{ env.GITHUB_WORKSPACE }}/install -DLLVM_ENABLE_PROJECTS="mlir;clang" -DLLVM_TARGETS_TO_BUILD=X86 -DCMAKE_BUILD_TYPE=Release -DLLVM_INSTALL_UTILS=ON
       - name: build
         working-directory: llvm-project-${{ env.LLVM_VERSION }}.src
         run: cmake --build build --target check-mlir
