@@ -22,6 +22,7 @@ jobs:
           fileName: llvm-project-${{ env.LLVM_VERSION }}.src.tar.xz
       - name: extract
         run: tar xvf llvm-project-${{ env.LLVM_VERSION }}.src.tar.xz --strip-components 1 -C llvm
+        shell: bash
       - name: setup ninja
         uses: seanmiddleditch/gha-setup-ninja@master
       - name: configure
