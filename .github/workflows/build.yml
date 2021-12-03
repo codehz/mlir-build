@@ -25,9 +25,18 @@ jobs:
         shell: bash
       - name: setup ninja
         uses: seanmiddleditch/gha-setup-ninja@master
-      - name: configure
+        if: matrix.os == 'linux-latest'
+      - name: setup dev shell
+        uses: seanmiddleditch/gha-setup-vsdevenv@v4
+        if: matrix.os == 'windows-latest'
+      - name: configure (linux)
         working-directory: llvm-project-${{ env.LLVM_VERSION }}.src
+        if: matrix.os == 'linux-latest'
         run: cmake -S llvm -B build -G Ninja -DCMAKE_INSTALL_PREFIX=${{ env.GITHUB_WORKSPACE }}/install -DLLVM_ENABLE_PROJECTS="mlir;clang" -DLLVM_TARGETS_TO_BUILD=X86 -DCMAKE_BUILD_TYPE=Release -DLLVM_INSTALL_UTILS=ON
+      - name: configure (windows)
+        working-directory: llvm-project-${{ env.LLVM_VERSION }}.src
+        if: matrix.os == 'windows-latest'
+        run: cmake -S llvm -B build -G "Visual Studio 17 2022" -DCMAKE_INSTALL_PREFIX=${{ env.GITHUB_WORKSPACE }}/install -DLLVM_ENABLE_PROJECTS="mlir;clang" -DLLVM_TARGETS_TO_BUILD=X86 -DCMAKE_BUILD_TYPE=Release -DLLVM_INSTALL_UTILS=ON
       - name: build
         working-directory: llvm-project-${{ env.LLVM_VERSION }}.src
         run: cmake --build build --target check-mlir
